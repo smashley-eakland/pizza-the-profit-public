@@ -1,18 +1,21 @@
 <center> <h1> A Pizza the Profit </h1> </center>
-<center> <h2> Marketing and Customer Analysis for a local Pizza franchise </center> </h2> 
+<center> <h2> Sales Regression Analysis for a local Pizza franchise </center> </h2> 
 <center> <img src="./Images/ivan-torres-MQUqbmszGGM-unsplash.jpg" alt="Pizza" width="800"/> </center>
 <center> Photo by <a href="https://unsplash.com/@iavnt?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Ivan Torres</a> on <a href="https://unsplash.com/s/photos/pizza?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a></center>
 
 
 ## Main Files:
+* Images
 * EDA & Data Cleaning.ipynb - Data Cleaning and Preparation, EDA notebook
 * Final Modeling Notebook.ipynb - Notebook containing final modeling 
 * Prelim Modeling.ipynb - Notebook containing preliminary modeling iterations 
-* Presentation.pdf
+* Presentation.pdf - Presentation slides
 
 ## Introduction
 
 The goal of every business is to be profitable. In the current climate, it is more crucial than ever to be in tune with what works and what doesn't for your business, especially when it comes to highly competitive industries like the restaurant industry. I have been provided live data from a local pizza franchise with the goal of identifying by what means are they most likely to increase their customer base and sales, thus increasing profitability, and with any luck, their brand loyalty as well. 
+
+##### Due to the nature of the business problem and proprietary data provided, all personally identifiable information has been scrubbed from the notebooks, and the data has been omitted from the repository. 
 
 ##### Stakeholder & Business Problem: A local pizza franchise looking to bring in new customers and encourage existing customers to continue returning. It is my goal to identify if a specific discount code or dollar value is the most likely to increase sales and by what amount.
 
@@ -126,11 +129,9 @@ Top performing model in this analysis was the Stacking Regressor with explained 
 
 ##### * However, it is worth noting that we are violating some of the assumptions of linear regression with this model as seen in the final section of this notebook. While I do believe that the discount codes CAN explain variation in net sales, the predictions of the models could be affected with the violations seen. Namely, multicollinearity is seen between the discount codes on the full dataset. Because of this, the coefficients (discount codes) can not be interpreted individually as they may not truly move independently of one another in this modeling scenario. Another violation is the normal distribution of the residuals. In futher analysis, transformations on the continuous predictor may improve this assumption, as will removing outliers from the set. Lastly, heteroscedasticity is potentially being violated here as well on the full dataset. With the aforementioned transformations, we should see improvement in that as well. *
 
-A close second place was the VoterRegressor without the weak learners, coming in at a R-squared of .579 and a RMSE \$8.94. And the third best performer was the tuned RidgeRegressor with lamba of .01 (regularization strength) and solver as 'svd' (singular variable decomposition) with a R-squared of .54 and RMSE of \$9.33.
-
 I did run a second set of iterations with only the top ten SelectKBest identified predictors, but performance did not improve. On the Ridge, Bayes, and other typical weak learners, performance suffered quite significantly. On the GradientBoost and VotingRegressor, the performance did drop to the low 50's for R-squared and mid- \$9 range for RMSE. Please see the Further Analysis section on this for more.
 
-### Final Modeling Notebook
+## Final Modeling Notebook
 
 After running preliminary modeling and analysis, it is determined that the models may not be utilized for business decisions due to violations in linear regression assumptions. This notebook is dedicated to reworking and transforming the data, as well as reducing the number of features to a meaningful but still informative set for analysis and final predictive modeling. Utilizing the cross-validated Recursive Feature Elimination, 43 of the 45 features were kept and all of the multicollinearity was eliminated.
 
@@ -219,9 +220,8 @@ As seen here on our distribution of residuals, our model may be biasing towards 
 ### For more information or questions, please reach out to Ashley Eakland at <ashley@idodata.science>.
 
 ## Repository Structure (subject to change)
-* Images
-* EDA & Data Cleaning.ipynb
-* Final Modeling Notebook.ipynb
-* Pickles
-* Prelim Modeling.ipynb
-* Presentation.PDF
+* [Images](https://github.com/smashley-eakland/pizza-the-profit-public/tree/master/Images)
+* [EDA & Data Cleaning.ipynb](https://github.com/smashley-eakland/pizza-the-profit-public/blob/master/EDA%20%26%20Data%20Cleaning.ipynb)
+* [Final Modeling Notebook.ipynb](https://github.com/smashley-eakland/pizza-the-profit-public/blob/master/Final%20Modeling%20Notebook.ipynb)
+* [Prelim Modeling.ipynb](https://github.com/smashley-eakland/pizza-the-profit-public/blob/master/Prelim%20Modeling.ipynb)
+* [Presentation.PDF](https://github.com/smashley-eakland/pizza-the-profit-public/blob/master/Presentation.pdf)
