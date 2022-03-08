@@ -15,9 +15,9 @@
 
 The goal of every business is to be profitable. In the current climate, it is more crucial than ever to be in tune with what works and what doesn't for your business, especially when it comes to highly competitive industries like the restaurant industry. I have been provided live data from a local pizza franchise with the goal of identifying by what means are they most likely to increase their customer base and sales, thus increasing profitability, and with any luck, their brand loyalty as well. 
 
-##### Due to the nature of the business problem and proprietary data provided, all personally identifiable information has been scrubbed from the notebooks, and the data has been omitted from the repository. 
+### Due to the nature of the business problem and sensitivity of the data provided, supplied proprietary data has been omitted from the repository. 
 
-##### Stakeholder & Business Problem: A local pizza franchise looking to bring in new customers and encourage existing customers to continue returning. It is my goal to identify if a specific discount code or dollar value is the most likely to increase sales and by what amount.
+#### Stakeholder & Business Problem: A local pizza franchise looking to bring in new customers and encourage existing customers to continue returning. It is my goal to identify if a specific discount code or dollar value is the most likely to increase sales and by what amount.
 
 ##### Targeted Metrics - R-Squared (Explained Variance) and RMSE
 ##### Null Hypothesis - The independent variables (in our case, the discount codes and values) together do not explain any variability in the dependent variable (net sales). 
@@ -121,7 +121,7 @@ Models chosen for futher iteration:
 
 * Stacking of models above based on best performers
 
-#### Final Results
+#### Results of Preliminary Modeling
 
 Top performing model in this analysis was the Stacking Regressor with explained variance of 59.8%, R-Squared of .5975, and a RMSE of \$8.73. This model was run using the tuned RandomForest and GradientBoost Regressors, and the tuned RidgeRegression as the final estimator, and all features for prediction. Fit time, score and mean absolute error comparison between the stacking regressor and the individual estimators is shown below.
 
@@ -145,59 +145,13 @@ Utilizing code seen in [this post](https://jeffmacaluso.github.io/post/LinearReg
 
 - Remaining assumptions are met. The violated assumptions to be addressed in Future Analysis and Limitations.
 
-### Final Results
+## Conclusion
+#### Final Modeling Results
 
 Final models selected were evaluated on the reduced sets (utilizing Recursive Feature Elimination) after eliminating all risk of multicollinearity. With assumptions for normal distribution of residuals and homoscedasticity still in violation, it is important to note that the predictions and coefficients of the model could potentially be skewed. 
 
 ##### Top performing model is the VotingRegressor with an explained variance of 62% and R-Squared of 0.616. RMSE for this model is \$8.53. 
 The VotingRegressor fits the base estimators (in this case, the tuned RandomForest, tuned GradientBoost, and tuned Ridge), then uses the individual predictions from each base estimator to average and form final predictions. In this model, the tuned Ridge model's top 10 coefficient values are below. This means with respect to y (Net Sales), our predictor X (Discount Code LARGEFAV, for example), represents a change in Net Sales by \$22.10). Conversely, discount code "Free Large Pizza Coupon" impacts Net Sales by -\$35.60. With the GradientBoosting and RandomForest models, there aren't coefficients and values to pull out for interpretation, rather feature importances and their weights due to the nature of the way the models make their decisions (splitting based on decreasing the impurity, weights of the features will sum to 1). It is interesting to see which features are common between the Ridge and RF and GB models, and which are unique to each.
-
-
-##### Top Ten Ridge Coefficients
-* Discount Code LARGEFAV &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 22.100885
-* Discount Code SAVE20 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 21.434471&nbsp; &nbsp; (RF number 4, GB number 4)
-* Discount Code GET25MILTARY  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 17.450523
-* Discount Code WINGS1 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 17.355759
-* Discount Code DMPAIR1 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 15.963462 &nbsp; &nbsp; (RF number 6)
-* Discount Code MAIL25 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 15.708687 &nbsp; &nbsp; (RF number 2, GB number 3)
-* Discount Code GET25OFF &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 15.353581 &nbsp; &nbsp; (RF number 5, GB number 5)
-* Discount Code \$4 Off Any Pizza  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 15.077658
-* Discount Code DMDIN3 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 14.535081
-* Discount Code GET25MILITARY  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 14.527399 &nbsp; &nbsp; (RF number 7, GB number 7)
-
-##### Bottom Ten Ridge Coefficients
-* Discount Code Food Drive Deal &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -11.244923
-* Discount Code Bogo &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -11.985703
-* Discount Code Free Birthday Pizza &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -17.493109
-* Discount Code 100% Off &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  -20.076802 &nbsp; &nbsp; (GB number 6)
-* Discount Code GET25FREE &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -21.648042
-* Discount Code Free Large Pizza Card  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -24.494028
-* Discount Code Free pizza coupon &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  -27.178891
-* Discount Code Free birthday pizza &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  -27.229837
-* Discount Code Free pizza credit &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  -32.029533
-* Discount Code Free large pizza coupon &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;-35.597136
-
-### Final Model Notebook - Individual Model Final Scores
-
-#### Tuned RandomForest Regressor
-    * R-Squared on Test Data - .555 - Explained Variance 56%
-    * RMSE $9.19
-    *Parameters: (max_depth=7, min_samples_leaf=5, n_estimators=150, random_state=123)
-    *Key Features: Total Discount Amount , Discount Codes MAIL25, GET25EMPLOYEE, SAVE20, GET25OFF, DMPAIR1 and GET25MILITARY
-
-#### Tuned GradientBoosting Regressor
-    * R-Squared on Test Data - 0.604 - Explained Variance 60.6%
-    * RMSE $8.67
-    *Parameters: (max_depth= 5, min_samples_leaf=5, n_estimators=100, random_state=123)
-    *Key Features: Total Discount Amount, Discount Codes GET25EMPLOYEE, MAIL25, SAVE20, GET25OFF, 100%OFF, and GET25MILITARY 
-
-#### VotingRegressor
-    * R-Squared on Test Data - 0.616 - Explained Variance 62%
-    * RMSE $8.53
-
-#### StackingRegressor
-    * R-Squared on Test Data - 0.604 - Explained Variance 60.6%
-    * RMSE $8.66
 
 
 ## Further Analysis
@@ -217,11 +171,14 @@ As seen here on our distribution of residuals, our model may be biasing towards 
 ![Residual Distribution](./Images/Residual_dist_final_model.png)
 ![Homoscedasticity Final](./Images/homosced_final.png)
 
-### For more information or questions, please reach out to Ashley Eakland at <ashley@idodata.science>.
+# For more information
+### Please see my full analysis in the Jupyter Notebooks (linked below with their descriptions) or my [Presentation](https://github.com/smashley-eakland/pizza-the-profit-public/blob/master/Presentation.pdf). 
+### For questions, please reach out to Ashley Eakland at <ashley@idodata.science>.
 
 ## Repository Structure (subject to change)
-* [Images](https://github.com/smashley-eakland/pizza-the-profit-public/tree/master/Images)
-* [EDA & Data Cleaning.ipynb](https://github.com/smashley-eakland/pizza-the-profit-public/blob/master/EDA%20%26%20Data%20Cleaning.ipynb)
-* [Final Modeling Notebook.ipynb](https://github.com/smashley-eakland/pizza-the-profit-public/blob/master/Final%20Modeling%20Notebook.ipynb)
-* [Prelim Modeling.ipynb](https://github.com/smashley-eakland/pizza-the-profit-public/blob/master/Prelim%20Modeling.ipynb)
-* [Presentation.PDF](https://github.com/smashley-eakland/pizza-the-profit-public/blob/master/Presentation.pdf)
+* [Images - Both sourced externally and generated from code](https://github.com/smashley-eakland/pizza-the-profit-public/tree/master/Images)
+* [EDA & Data Cleaning.ipynb - Narrative documentation of EDA and Data Cleaning process in Jupyter notebook](https://github.com/smashley-eakland/pizza-the-profit-public/blob/master/EDA%20%26%20Data%20Cleaning.ipynb)
+* [Final Modeling Notebook.ipynb - Narrative documentation of final modeling in Jupyter notebook](https://github.com/smashley-eakland/pizza-the-profit-public/blob/master/Final%20Modeling%20Notebook.ipynb)
+* [Prelim Modeling.ipynb - Narrative documentation of preliminary modeling analysis in Jupyter notebook](https://github.com/smashley-eakland/pizza-the-profit-public/blob/master/Prelim%20Modeling.ipynb)
+* [Presentation.PDF - PDF version of project presentation](https://github.com/smashley-eakland/pizza-the-profit-public/blob/master/Presentation.pdf)
+* [README.md - The top-level README for reviewers of this project](https://github.com/smashley-eakland/pizza-the-profit-public/blob/master/README.md)
